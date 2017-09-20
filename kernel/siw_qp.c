@@ -273,7 +273,8 @@ static void siw_qp_llp_write_space(struct sock *sk)
 	 * Clear SOCK_NOSPACE only if sendspace may hold some reasonable
 	 * sized FPDU.
 	 */
-#ifdef SIW_TX_FULLSEGS
+	// Workaround for 4.10: Never use sk_stream_write_space() (no longer exported to modules). TODO: Does it even work?
+#if 1 //def SIW_TX_FULLSEGS
 	struct socket *sock = sk->sk_socket;
 	if (sk_stream_wspace(sk) >= (int)qp->tx_ctx.fpdu_len && sock) {
 		clear_bit(SOCK_NOSPACE, &sock->flags);

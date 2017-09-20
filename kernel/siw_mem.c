@@ -160,8 +160,20 @@ struct siw_umem *siw_umem_get(u64 start, u64 len)
 		got = 0;
 		while (nents) {
 			struct page **plist = &umem->page_chunk[i].p[got];
+#if 0
+			// old interface version, see change in https://github.com/torvalds/linux/commit/768ae309a96103ed02eb1e111e838c87854d8b51 :
+			// 	long get_user_pages(unsigned long start, unsigned long nr_pages,
+			// 	-		    int write, int force, struct page **pages,
+			// 	+		    unsigned int gup_flags, struct page **pages,
+			// 	struct vm_area_struct **vmas) 
+
 			rv = get_user_pages(first_page_va, nents, 1, 1, plist,
 					    NULL);
+#else
+			// new interface
+			rv = get_user_pages(first_page_va, nents, FOLL_WRITE | FOLL_FORCE, plist,
+					    NULL);
+#endif
 			if (rv < 0 )
 				goto out;
 

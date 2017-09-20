@@ -453,7 +453,7 @@ int siw_dealloc_pd(struct ib_pd *ofa_pd)
 	return 0;
 }
 
-struct ib_ah *siw_create_ah(struct ib_pd *pd, struct ib_ah_attr *attr)
+struct ib_ah *siw_create_ah(struct ib_pd *pd, struct ib_ah_attr *attr, struct ib_udata *udata)
 {
 	return ERR_PTR(-ENOSYS);
 }

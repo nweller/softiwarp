@@ -139,11 +139,11 @@ extern void siw_print_qp_attr_mask(enum ib_qp_attr_mask, char *);
 			if (!in_interrupt())				\
 				pr_info("(%5d/%1d) %s" fmt,		\
 					current->pid,			\
-					current_thread_info()->cpu,	\
+					0 /* TODO: no longer defined?: current_thread_info()->cpu */,	\
 					__func__, ## args);		\
 			else						\
 				pr_info("( irq /%1d) %s" fmt,		\
-					current_thread_info()->cpu,	\
+					0 /* TODO: no longer defined?: current_thread_info()->cpu */,	\
 					__func__, ## args);		\
 		}							\
 	} while (0)
